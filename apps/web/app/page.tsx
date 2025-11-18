@@ -1,8 +1,4 @@
-
+import TipTap from "../components/editor/tiptap"
 export default function Home() {
-  return (
-    <div>
-    
-    </div>
-  );
+  return <TipTap />
 }
