@@ -73,7 +73,7 @@ import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils"
 // --- Styles ---
 import "@/components/tiptap-templates/simple/simple-editor.scss"
 
-import content from "@/components/tiptap-templates/simple/data/content.json"
+// import content from "@/components/tiptap-templates/simple/data/content.json"
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -183,7 +183,7 @@ const MobileToolbarContent = ({
   </>
 )
 
-export function SimpleEditor() {
+export function SimpleEditor(content: JSON) {
   const isMobile = useIsBreakpoint()
   const { height } = useWindowSize()
   const [mobileView, setMobileView] = useState<"main" | "highlighter" | "link">(
@@ -201,6 +201,13 @@ export function SimpleEditor() {
         "aria-label": "Main content area, start typing to enter text.",
         class: "simple-editor",
       },
+    },
+    onUpdate: ({ editor }) => {
+      const json = editor.getJSON()
+      console.log("updated:", json)
+      const html = editor.getHTML()
+      console.log("html:",html)
+      // TODO: debounce->autosave API call
     },
     extensions: [
       StarterKit.configure({
@@ -250,8 +257,8 @@ export function SimpleEditor() {
           style={{
             ...(isMobile
               ? {
-                  bottom: `calc(100% - ${height - rect.y}px)`,
-                }
+                bottom: `calc(100% - ${height - rect.y}px)`,
+              }
               : {}),
           }}
         >
